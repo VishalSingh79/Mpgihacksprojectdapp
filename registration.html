@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration-Form</title>
+    <style>
+        html{
+            background-image: url("download3.jpg");
+        }
+
+        .vii{
+            font-size: larger;
+            border-radius: 5px;
+        }
+        ::placeholder{
+            color:blue;
+            font-family: monospace;
+        }
+        .submit{
+            background-color: rgb(23, 72, 235);
+            color:white;
+            border-radius: 3px;
+            size:25px;
+        }
+        h1{
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        .maindiv{
+            border: 2px solid black;
+            padding-bottom: 15px;
+          padding-left:15px;
+          margin-left:500px;
+          margin-top:100px;
+          border-radius: 30px;
+          margin-right:540px;
+          background-color: rgba(109, 163, 245, 0.692);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="maindiv">
+    <h1 style="text-align: center;">Registration!!</h1>
+ 
+        <form >
+            <!-- <label for="name">Name:</label> -->
+            <input type="text" id="text" name="name" placeholder="Enter Your Full Name" required class="vii">
+            <br>
+            <br>
+            <input type="text" id="text" required placeholder="Profession" class="vii">
+            <br>
+            <br>
+            
+            <input type="number" id="number" placeholder="Enter Your Contact Number " required class="vii">
+            <br>
+            <br>
+            <select required placeholder="Select Your Country" >
+                 <option >--Select Country--</option>
+                <option >India</option>
+                <option>USA</option>
+                    <option >Australia</option>
+                    <option >Japan</option>
+                    <option >Russia</option>
+            </select>
+            <br>
+            <br>
+            <input type="email" id="email" required placeholder="Enter Your E-mail" class="vii">
+            <br>
+            <br>
+            <input type="password" id="password" required placeholder="Enter Your Password" class="vii">
+            <br>
+            <br>
+            <input type="password" id="password" required placeholder="Confirm Password" class="vii">
+            <br>
+            <br>
+           <input type="checkbox" required class="vii">
+           <span>I hereby declare that all the above informations given by me are correct</span>
+           <br>
+           <br>
+           <input type="submit" class="submit" value="Register" class="vii">
+           <input type="reset"   class="submit" class="vii">
+        </form>
+    </div>
+    
+</body>
+</html>
