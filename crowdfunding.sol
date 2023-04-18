@@ -9,7 +9,15 @@ import "./IERC20.sol";
 
 contract CROWDFUNDING is ICROWDFUND{
 
-enum STATE {ONGOING, DONE }
+
+ receive() external payable{}
+    
+
+
+ fallback() external payable {}
+
+
+ event FundingReceived(address contributor, uint amount, uint currentTotal);
 
 // for consensus 
  struct Request {
@@ -37,18 +45,21 @@ enum STATE {ONGOING, DONE }
  mapping (string => address) internal  _allowedstablecoin;
   
  constructor( uint _mincontribution , uint _target ) {
-       owner = msg.sender;
+       owner = payable(msg.sender);
        mincontribution = _mincontribution;
        target =  _target ;
 
  }
 
-  modifier targetrecahed(){
-      require()
-  }
+
 
   modifier onlyOwner(){
       require(msg.sender==owner);
+      _;
+  }
+  
+  modifier reached(){
+      require(valueraised < target);
       _;
   }
 
@@ -56,31 +67,29 @@ enum STATE {ONGOING, DONE }
      return address(this).balance; 
  }
 
- function getBalanceUSDT() public view returns(uint){
-     return USDT.balanceof(address(this));
- }
+// function getBalanceUSDT() public view returns(uint){
+  //   return USDT.balanceof(address(this));
+// }
 
 
 
 
-// funcitonality should only  be avaiable if user wnats to add stablecoin  as donaation 
- //function addStableCoin() public onlyOwner {
-  //   stableadd1 = _allowedstablecoin["USDC"] = 0x7EA2be2df7BA6E54B1A9C70676f668455E329d29;
-  //   stableadd2 =  _allowedstablecoin["USDT"] = 0xdAC17F958D2ee523a2206206994597C13D831ec7;
-   //  stableadd1 = IERC20(_allowedstablecoin["USDC"]);
-   //  stableadd2 =  IERC20(_allowedstablecoin["USDT"]);
-   // }
 
 
-function refund() public payable{
+// user will get only 90% of the donation back as it is required for transaction to pay for gas fee
+function refund(address refundee) public payable{
     require(_balances[msg.sender] > 0, "more refund than possible");
-     
-    
-
+    (bool success, ) = payable(refundee).call{value: _balances[msg.sender]}("");
+    if(!success){
+    	revert();
+    }
+    valueraised -= _balances[msg.sender];
+    _balances[msg.sender] = 0;
+    contributors--;
 
 }
   
-function sendETH() public payable{
+function sendETH() public payable reached {
     require(msg.value > mincontribution);
     
     if(_balances[msg.sender] == 0 ){
@@ -88,16 +97,17 @@ function sendETH() public payable{
     }
      valueraised = valueraised +  msg.value;
      _balances[msg.sender] = msg.value ;
+
+     emit FundingReceived(msg.sender, msg.value , valueraised);
 }
 
-function sendERC20(_amount) public ;
-    
-    
-  
-} 
+function transferFundsToOwner() public onlyOwner {
+   (bool success, ) = owner.call{value: _balances[msg.sender]}("");
+    if(!success){
+    	revert();
+    }     
+}
 
-
-
-
+function get90percent(uint _amount) internal pure returns(uint){}
 
 }
