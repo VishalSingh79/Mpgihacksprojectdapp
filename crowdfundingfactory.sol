@@ -15,9 +15,9 @@ contract CROWDFUNDINGFACTORY{
      fallback() external payable{}
    
 
-    function deploy(uint _mincontribution , uint _target , uint _deadline)  internal {
-          CROWDFUNDING newcrowdfundingcontract = new CROWDFUNDING(_mincontribution,_target , _deadline);
-          deployaddress.push(newcrowdfundingcontract);
+    function deploy(uint _mincontribution , uint _target )  public {
+          CROWDFUNDING newcrowdfundingcontract = new CROWDFUNDING(_mincontribution,_target);
+          deployaddress.push(address(newcrowdfundingcontract));
     }
 
     
